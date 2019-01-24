@@ -13,10 +13,14 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStructuredSelector } from 'reselect';
 import Upload from 'components/Upload/Loadable';
 import { makeSelectLoggedUser } from '../../../store/loggeduser/selectors';
+import { Divider } from '@material-ui/core/Divider';
+
+import EditDialog from './EditDialog';
 
 const styles = theme => ({
   aboutPaper: {
@@ -69,6 +73,13 @@ const styles = theme => ({
   multiInput: {
     flex: 1,
   },
+  editBtn: {
+    position: 'absolute',
+    top: 15,
+    right: 50,
+    fontSize: 20,
+    cursor:'pointer'
+  },
   deleteBtn: {
     background: '#e63d3d',
     color: 'white',
@@ -81,14 +92,43 @@ const styles = theme => ({
 
 /* eslint react/prop-types: 0 */
 class AboutUserComponent extends React.PureComponent {
-  
+
+  state = {
+    editDialogExpand: null,
+  };
+
+  handleEditDialogPanel = () => {
+    this.setState({
+      editDialogExpand : true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      editDialogExpand : false
+    })
+  }
+
+
+
   render() {
     const { classes, values, handleChange, touched, errors,expanded,handlePanelChange } = this.props;
+    const {editDialogExpand } = this.state;
     return (
       <ExpansionPanel
         expanded={expanded}
         onChange={handlePanelChange}
       >
+      {
+        expanded &&    <div className={classes.editBtn}>
+        <EditIcon onClick={this.handleEditDialogPanel}/>
+        </div>
+      }
+
+      <EditDialog
+      editDialogExpand = {editDialogExpand}
+      handleClose = {this.handleClose}
+      />
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="body1" className={classes.heading}>
             Basic Information

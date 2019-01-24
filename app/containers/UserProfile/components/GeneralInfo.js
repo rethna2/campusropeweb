@@ -8,9 +8,12 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
 import { FieldArray } from 'formik';
 import withStyles from '@material-ui/core/styles/withStyles';
 import MultipleChipInput from '../../../components/MultipleChipInput';
+
+import EditDialog from './EditDialog';
 
 const styles = theme => ({
   aboutPaper: {
@@ -63,6 +66,13 @@ const styles = theme => ({
   multiInput: {
     flex: 1,
   },
+  editBtn: {
+    position: 'absolute',
+    top: 15,
+    right: 50,
+    fontSize: 20,
+    cursor:'pointer'
+  },
   deleteBtn: {
     background: '#e63d3d',
     color: 'white',
@@ -77,7 +87,20 @@ const styles = theme => ({
 class AboutUserComponent extends React.Component {
   state = {
     expanded: null,
+    editDialogExpand: null,
   };
+
+  handleEditDialogPanel = () => {
+    this.setState({
+      editDialogExpand : true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      editDialogExpand : false
+    })
+  }
 
   handlePanelChange = panel => (event, expanded) => {
     this.setState({
@@ -87,11 +110,21 @@ class AboutUserComponent extends React.Component {
 
   render() {
     const { classes, values = {}, handleChange ,handlePanelChange,expanded} = this.props;
+    const {editDialogExpand } = this.state;
     return (
-      <ExpansionPanel 
+      <ExpansionPanel
       expanded={expanded}
       onChange={handlePanelChange}
       >
+      {
+        expanded &&    <div className={classes.editBtn}>
+        <EditIcon onClick={this.handleEditDialogPanel}/>
+        </div>
+      }
+      <EditDialog
+      editDialogExpand = {editDialogExpand}
+      handleClose = {this.handleClose}
+      />
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="body1" className={classes.heading}>
             General Information

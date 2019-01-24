@@ -10,10 +10,13 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStructuredSelector } from 'reselect';
 import ProfileTabType from './ProfileTabTypeModel';
 import { makeSelectLoggedUser } from '../../../store/loggeduser/selectors';
+
+import EditDialog from './EditDialog';
 
 const styles = theme => ({
   aboutPaper: {
@@ -63,6 +66,13 @@ const styles = theme => ({
     alignItems: 'center',
     position: 'relative',
   },
+  editBtn: {
+    position: 'absolute',
+    top: 15,
+    right: 50,
+    fontSize: 20,
+    cursor:'pointer'
+  },
   multiInput: {
     flex: 1,
   },
@@ -80,6 +90,7 @@ const styles = theme => ({
 class AboutUserComponent extends React.Component {
   state = {
     expanded: null,
+    editDialogExpand: null,
   };
 
   handlePanelChange = panel => (event, expanded) => {
@@ -88,14 +99,37 @@ class AboutUserComponent extends React.Component {
     });
   };
 
+  handleEditDialogPanel = () => {
+    this.setState({
+      editDialogExpand : true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      editDialogExpand : false
+    })
+  }
+
   render() {
     const { classes, values, handleChange,expanded ,handlePanelChange} = this.props;
     const TAB_TYPE_MAP = ProfileTabType.typeTypeMap;
+    const {editDialogExpand } = this.state;
     return (
       <ExpansionPanel
       expanded={expanded}
       onChange={handlePanelChange}
       >
+      {
+        expanded &&    <div className={classes.editBtn}>
+        <EditIcon onClick={this.handleEditDialogPanel}/>
+        </div>
+      }
+
+      <EditDialog
+      editDialogExpand = {editDialogExpand}
+      handleClose = {this.handleClose}
+      />
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="body1" className={classes.heading}>
             Stereotypes

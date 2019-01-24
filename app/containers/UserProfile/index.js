@@ -22,7 +22,6 @@ import {
 import reducer from './reducer';
 import saga from './saga';
 import UserProfileBrowserView from './BrowserView'
-import UserProfileMobileView from './MobileView'
 
 import { tabSelectAction, fetchUserProfile, saveUserProfile } from './actions';
 
@@ -93,21 +92,11 @@ export class UserProfile extends React.Component {
 
           <meta name="description" content="Description of UserProfile" />
         </Helmet>
-        <MobileView>
-          <UserProfileMobileView userinfo={userprofileInfo}/>
-        </MobileView>
-        <BrowserView>
-          <UserProfileBrowserView userinfo={userprofileInfo}/>
-        </BrowserView>
-      
+       <UserProfileBrowserView userinfo={userprofileInfo}/>
       </div>
     );
   }
 }
-
-UserProfile.propTypes = {
-
-};
 
 const mapStateToProps = createStructuredSelector({
   selectedTab: makeSelectSelectedTab(),
