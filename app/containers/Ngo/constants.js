@@ -12,3 +12,4 @@ export const SET_INVIEW_NGO = 'app/Ngo/SET_INVIEW_NGO';
 export const FETCH_NGO_BY_ID = 'app/Ngo/FETCH_NGO_BY_ID';
 export const UPDATE_NGO_BY_ID = 'app/Ngo/UPDATE_NGO_BY_ID';
 export const CREATE_NGO = 'app/Ngo/CREATE_NGO';
+export const DELETE_NGO = 'app/Ngo/DELETE_NGO';

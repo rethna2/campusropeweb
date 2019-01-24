@@ -7,12 +7,16 @@ import {
   FETCH_NGO_BY_ID,
   UPDATE_NGO_BY_ID,
   CREATE_NGO,
+  DELETE_NGO,
 } from './constants';
 import { setNgos, setInViewNgo } from './actions';
 import featherClient, { ngoService } from './../../feathers';
-import { startFetchingData, stopFetchingData } from '../Home/actions';
+import {
+  startFetchingData,
+  stopFetchingData,
+  openSnack,
+} from '../Home/actions';
 import { selectLoggedUserDomain } from '../../store/loggeduser/selectors';
-import { openSnack } from '../Home/actions';
 
 export function* submitNewNgoDetails({ values, actions }) {
   const { resetForm, setSubmitting } = actions;
@@ -100,6 +104,12 @@ export function* fetchNgoByIdSaga({ ngoId }) {
     yield put(stopFetchingData());
   }
 }
+
+export function* deleteNgoSaga({ ngoId }) {
+  // TODO: write code to delete the saga
+  console.log('deleteSaga ngoId', ngoId);
+}
+
 // Individual exports for testing
 export default function* defaultSaga() {
   yield [
@@ -108,5 +118,6 @@ export default function* defaultSaga() {
     takeLatest(FETCH_NGO_BY_ID, fetchNgoByIdSaga),
     takeLatest(UPDATE_NGO_BY_ID, updateNgoSaga),
     takeLatest(CREATE_NGO, createNgoSaga),
+    takeLatest(DELETE_NGO, deleteNgoSaga),
   ];
 }

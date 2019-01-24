@@ -13,6 +13,7 @@ import {
   FETCH_NGO_BY_ID,
   UPDATE_NGO_BY_ID,
   CREATE_NGO,
+  DELETE_NGO,
 } from './constants';
 
 export function defaultAction() {
@@ -67,5 +68,12 @@ export function updateNgo(ngo) {
   return {
     type: UPDATE_NGO_BY_ID,
     ngo,
+  };
+}
+
+export function deleteNgo(ngoId) {
+  return {
+    type: DELETE_NGO,
+    ngoId,
   };
 }

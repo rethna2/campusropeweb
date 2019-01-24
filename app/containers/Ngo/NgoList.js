@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import DeleteIcon from '@material-ui/icons/Delete';
 import format from 'date-fns/format';
 
 /* eslint-disable*/
@@ -30,6 +31,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 6,
     marginRight: '8px',
     cursor: 'pointer',
+    position: 'relative'
   },
   title: {
     fontSize: 14,
@@ -38,9 +40,15 @@ const styles = theme => ({
     marginBottom: 12,
     textAlign: 'right',
   },
+  deleteIcon: {
+    color: 'red',
+    position: 'absolute',
+    bottom: 15,
+    right: 15
+  }
 });
 
-const NgoBox = ({ ngoData, classes, onNgoClick }) => {
+const NgoBox = ({ ngoData, classes, onNgoClick, onDelete }) => {
   return (
     <Card
       className={classes.card}
@@ -84,6 +92,7 @@ const NgoBox = ({ ngoData, classes, onNgoClick }) => {
         <Typography component="p">
           Contact Email : {ngoData.contactEmail}
         </Typography>
+        <DeleteIcon className={classes.deleteIcon} onClick={e => {onDelete(e, ngoData._id)}}/>
       </CardContent>
     </Card>
   );
@@ -103,12 +112,19 @@ class NgoList extends React.Component {
             key={ngo._id}
             classes={classes}
             onNgoClick={onNgoClick}
+            onDelete={this.onDelete}
             ngoData={ngo}
           />
         ))}
       </Fragment>
     );
   }
+
+  onDelete = (e, id) => {
+    e.stopPropagation();
+    this.props.onDelete(id)
+  }
+
   render() {
     const { classes, ngos } = this.props;
     return (
@@ -123,6 +139,7 @@ NgoList.propTypes = {
   classes: PropTypes.object.isRequired,
   ngos: PropTypes.array.isRequired,
   onNgoClick: PropTypes.func,
+  onDelete: PropTypes.func
 };
 
 export default withStyles(styles)(NgoList);
